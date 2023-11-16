@@ -9,19 +9,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.18",
+    "chess.js": "^1.0.0-beta.6",
+    "next": "14.0.2",
+    "next-nprogress-bar": "^2.1.2",
+    "prisma": "^5.6.0",
     "react": "^18",
+    "react-chessboard": "^4.3.2",
     "react-dom": "^18",
-    "next": "14.0.2"
+    "socket.io-client": "^4.7.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.7",
     "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.2",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.0.2"
+    "typescript": "^5"
   }
 }
