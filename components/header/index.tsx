@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export default function Header() {
     return (
-        <nav className="bg-[#141416] text-white p-4">
+        <nav className="bg-masterchess-dark text-white p-4">
         <div className="container mx-auto flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">MasterChess</Link>
           <div className="space-x-4">
