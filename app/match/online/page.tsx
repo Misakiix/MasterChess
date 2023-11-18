@@ -18,7 +18,6 @@ export default function OnlineMatch() {
           players={""}
           // the cleanup function will be used by Game to reset the state when a game is over
           cleanup={() => {}}
-          difficulty={0}
           computer={false}
         />
       </div>
