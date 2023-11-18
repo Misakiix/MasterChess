@@ -8,8 +8,6 @@ import { Howl } from "howler";
 
 export default function ComputerMatch() {
 
-    const [difficulty, setDifficulty] = useState<number>(2);
-
     useEffect(() => {
         const stockfish = new Worker(`${process.env.NEXT_PUBLIC_URL}/stockfish.js`);
         const DEPTH = 8; // number of halfmoves the engine looks ahead
@@ -34,10 +32,6 @@ export default function ComputerMatch() {
         src: [`${process.env.NEXT_PUBLIC_URL}/sounds/game-start.mp3`],
     });
 
-    const handleDifficultyChange = (newDifficulty: number) => {
-        setDifficulty(newDifficulty);
-    };
-
     return (
         <>
             <div id="root" className="flex-col">
@@ -47,7 +41,6 @@ export default function ComputerMatch() {
                     orientation=""
                     cleanup={() => {}}
                     username={""}
-                    difficulty={difficulty}
                     computer={true}
                 />
             </div>
