@@ -1,6 +1,6 @@
 class Engine {
   constructor() {
-    this.stockfish = new Worker(`${process.env.NEXT_PUBLIC_URL}/stockfish.js`);
+    this.stockfish = new Worker(`${process.env.NEXT_PUBLIC_URL ?? "https://localhost:3000"}/stockfish.js`);
     this.onMessage = (callback) => {
       this.stockfish.addEventListener("message", (e) => {
         const bestMove = e.data?.match(/bestmove\s+(\S+)/)?.[1];

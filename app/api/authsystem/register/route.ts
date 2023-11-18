@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcryptjs';
@@ -9,7 +9,7 @@ type ResponseData = {
   message: string;
 };
 
-export async function POST(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
   // if(req.method === 'POST') return res.json({ message: "Invalid Request" });
 
   try {

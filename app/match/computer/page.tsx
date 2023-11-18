@@ -11,6 +11,22 @@ export default function ComputerMatch() {
     const [difficulty, setDifficulty] = useState<number>(2);
 
     useEffect(() => {
+        const stockfish = new Worker(`${process.env.NEXT_PUBLIC_URL}/stockfish.js`);
+        const DEPTH = 8; // number of halfmoves the engine looks ahead
+        const FEN_POSITION =
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    
+        stockfish.postMessage("uci");
+        stockfish.postMessage(`position fen ${FEN_POSITION}`);
+        stockfish.postMessage(`go depth ${DEPTH}`);
+    
+        stockfish.onmessage = (e) => {
+          console.log(e.data); // in the console output you will see `bestmove e2e4` message
+        };
+      }, []);
+        
+
+    useEffect(() => {
         gameStart.play()
     }, [])
 
@@ -25,17 +41,6 @@ export default function ComputerMatch() {
     return (
         <>
             <div id="root" className="flex-col">
-                <div className="mt-8">
-                    <Button variant="text" className={`inline-block text-white ${difficulty === 2 ? 'bg-masterchess-btns' : 'bg-masterchess'} text-gray-800 rounded-full py-2 px-6 font-semibold transition hover:bg-masterchess-hover-btns mr-4`} onClick={() => { handleDifficultyChange(2) }}>
-                        <p>Fácil</p>
-                    </Button>
-                    <Button variant="text" className={`inline-block text-white ${difficulty === 8 ? 'bg-masterchess-btns' : 'bg-masterchess'} text-gray-800 rounded-full py-2 px-6 font-semibold transition hover:bg-masterchess-hover-btns mr-4`} onClick={() => { handleDifficultyChange(8) }}>
-                        <p>Médio</p>
-                    </Button>
-                    <Button variant="text" className={`inline-block text-white ${difficulty === 18 ? 'bg-masterchess-btns' : 'bg-masterchess'} text-gray-800 rounded-full py-2 px-6 font-semibold transition hover:bg-masterchess-hover-btns mr-4`} onClick={() => { handleDifficultyChange(18) }}>
-                        <p>Difícil</p>
-                    </Button>
-                </div>
                 <ChessGame
                     players=""
                     room=""

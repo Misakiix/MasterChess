@@ -4,44 +4,12 @@ import { Button } from '@mui/material'
 import Link from 'next/link'
 import { getCsrfToken, useSession, signIn } from 'next-auth/react'
 import { useEffect, useState } from 'react'
-import socket from '@/controllers/Socket'
-import RoomDialog from '@/components/roomDialog'
 import { useRouter } from 'next/navigation' 
 
-export default function Home({ setRoom, setOrientation, setPlayers }: any) {
+export default function Home() {
 
   const router = useRouter()
   const { data: session, status } = useSession()
-  const [openDialog, setOpenDialog] = useState(false)
-
-  useEffect(() => {
-    if (status !== "authenticated") return
-
-    socket.emit("username", session?.user?.name);
-
-  }, [session, status])
-
-
-  const handleNewOnlineGame = () => {
-    socket.emit("createRoom", (r: any) => {
-      console.log(r);
-      setRoom(r);
-      setOrientation("white");
-    });
-    router.push("/match/online")
-  }
-
-  const handleEnterGame = (roomInput: string) => {
-    // join a room
-    if (!roomInput) return; // if given room input is valid, do nothing.
-    socket.emit("joinRoom", { roomId: roomInput }, (r: any) => {
-      // r is the response from the server response set roomError to the error message and exit
-      console.log("response:", r);
-      setRoom(r?.roomId); // set room to the room ID
-      setPlayers(r?.players); // set players array to the array of players in the room
-      setOrientation("black"); // set orientation as black
-    });
-  }
 
   return (
     <>
@@ -53,21 +21,15 @@ export default function Home({ setRoom, setOrientation, setPlayers }: any) {
             <div>
               {status === "authenticated" ? (
                 <>
-                  <Button variant="text" className="mt-6 inline-block bg-masterchess-btns text-white rounded-full py-2 px-6 font-semibold transition hover:bg-masterchess-hover-btns mr-4" onClick={() => { handleNewOnlineGame() }}>
+                  <Button variant="text" className="mt-6 inline-block bg-masterchess-btns text-white rounded-full py-2 px-6 font-semibold transition hover:bg-masterchess-hover-btns mr-4">
                     Criar sala
                   </Button>
-                  <Button variant="text" className="mt-6 inline-block bg-masterchess-btns text-white rounded-full py-2 px-6 font-semibold transition hover:bg-masterchess-hover-btns mr-4" onClick={() => { setOpenDialog(!openDialog) }}>
+                  <Button variant="text" className="mt-6 inline-block bg-masterchess-btns text-white rounded-full py-2 px-6 font-semibold transition hover:bg-masterchess-hover-btns mr-4" >
                     Entrar em uma sala
                   </Button>
                   <Button variant="text" className="mt-6 inline-block bg-masterchess-btns text-white rounded-full py-2 px-6 font-semibold transition hover:bg-masterchess-hover-btns">
                     <Link href={"/match/computer/"}>Jogar contra o Computador</Link>
                   </Button>
-                  <RoomDialog 
-                    open={openDialog}
-                    title="Entrar em uma sala"
-                    contentText=''
-                    handleContinue={(r) => { handleEnterGame(r); } }
-                  />
                 </>
               ) : (
                 <>

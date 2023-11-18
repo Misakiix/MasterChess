@@ -5,6 +5,7 @@ const config: Config = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './controllers/**/*.{js,ts,jsx,tsx}'
   ],
   important: '#_masterchess',
   theme: {
@@ -19,7 +20,8 @@ const config: Config = {
         'masterchess': '#383635',
         'masterchess-dark': '#2a2a2a',
         'masterchess-btns': '#b58863',
-        'masterchess-hover-btns': '#c5a286'
+        'masterchess-hover-btns': '#c5a286',
+        'masterchess-secondary': '#b58863'
       }
     },
   },
