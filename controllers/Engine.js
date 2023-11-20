@@ -1,6 +1,7 @@
 class Engine {
   constructor() {
-      this.stockfish = new Worker(`${process.env.NEXT_PUBLIC_URL}/stockfish.js`);
+    if (typeof Worker !== 'undefined') {
+      this.stockfish = new Worker(`${process.env.NEXT_PUBLIC_URL}/stockfish.worker.js`);
       this.onMessage = (callback) => {
         this.stockfish.addEventListener("message", (e) => {
           const bestMove = e.data?.match(/bestmove\s+(\S+)/)?.[1];
@@ -10,6 +11,7 @@ class Engine {
       // Init engine
       this.sendMessage("uci");
       this.sendMessage("isready");
+    } else return null
   }
 
   sendMessage(command) {

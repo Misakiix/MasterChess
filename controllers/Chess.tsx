@@ -137,7 +137,7 @@ export default function ChessGame({ players, room, username, orientation, comput
 
   const findBestMove = () => {
 
-    if (!computer || !engine) return
+    if (!computer || !engine || !engine.onMessage) return
 
     engine.evaluatePosition(chess.fen(), difficulty);
     engine.onMessage(({ bestMove }: any) => {

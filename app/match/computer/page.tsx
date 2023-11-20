@@ -11,7 +11,10 @@ export default function ComputerMatch() {
     const workerRef = useRef<Worker>()
 
     useEffect(() => {
-        workerRef.current = new Worker(`${process.env.NEXT_PUBLIC_URL}/stockfish.js`);
+
+        if(!Worker) return
+
+        workerRef.current = new Worker(`${process.env.NEXT_PUBLIC_URL}/stockfish.worker.js`);
         const DEPTH = 8; // number of halfmoves the engine looks ahead
         const FEN_POSITION =
           "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
