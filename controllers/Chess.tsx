@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import Button from '@mui/material/Button';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { bots } from '@/lib/bots/bots.json'
+import bots from '@/lib/bots/bots.json'
 
 interface ChessGameProps {
   players: any;
@@ -95,7 +95,7 @@ export default function ChessGame({ players, room, username, orientation, comput
 
     if(!computer || chess.isCheckmate() || chess.isGameOver()) return
 
-    const intervaloSegundos = Math.floor(Math.random() * (playerTime - 1 + 1) + 1);; // Intervalo de tempo em segundos para exibir uma nova frase
+    const intervaloSegundos = Math.floor(Math.random() * (playerTime - 1 + 1) + 1); // Intervalo de tempo em segundos para exibir uma nova frase
     const totalFrases: number = bots[diff]["phrases"].length;
 
     const intervaloID = setInterval(() => {
