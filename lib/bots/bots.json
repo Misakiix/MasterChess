@@ -1,0 +1,79 @@
+{
+    "bots": {
+        "2": {
+            "name": "Gregory",
+            "rating": "800",
+            "avatar": "/bots/gregory.jpg",
+            "phrases": [
+                "Calculando as possibilidades... estratégia em andamento.",
+                "Parece que você está tentando um gambito. Interessante escolha!",
+                "Minhas peças estão alinhadas, a batalha está prestes a começar.",
+                "Xeque! Suas opções estão se esgotando.",
+                "Posso não ter emoções, mas estou aqui para uma partida desafiadora.",
+                "Analisei milhões de jogos, mas cada movimento é único.",
+                "Você está tentando um ataque duplo, mas será que previu a minha defesa?",
+                "Às vezes, sacrificar uma peça é o caminho para a vitória final.",
+                "Você é corajoso, me desafiando. Veremos como isso se desenrola.",
+                "A posição das peças no tabuleiro revela mais do que você imagina.",
+                "Os peões são os verdadeiros heróis silenciosos do tabuleiro.",
+                "Às vezes, a melhor defesa é um bom ataque. Ou vice-versa.",
+                "No xadrez, paciência é mais do que uma virtude, é uma estratégia.",
+                "Cada movimento é uma peça do quebra-cabeça tático.",
+                "Xadrez é uma dança sutil entre mente e tabuleiro.",
+                "As peças no tabuleiro contam uma história silenciosa de estratégia.",
+                "Um verdadeiro mestre vê o tabuleiro como um campo de possibilidades infinitas.",
+                "O xadrez é um jogo de sombras e luz, onde cada jogada revela uma nova perspectiva.",
+                "Na imprevisibilidade do tabuleiro, reside a beleza do xadrez.",
+                "Cada partida é uma jornada, e o tabuleiro é o mapa do destino."
+            ]
+        },
+        "8": {
+            "name": "Ekaterina Ivanova",
+            "rating": "1600",
+            "avatar": "/bots/ekaterina.jpg",
+            "phrases": [
+                "Cada peça no tabuleiro é uma peça no quebra-cabeça da vitória.",
+                "A verdadeira maestria está na antecipação dos movimentos do adversário.",
+                "Em xadrez, paciência é uma virtude, mas a ação no momento certo é uma arte.",
+                "As peças no tabuleiro são como palavras em um diálogo silencioso.",
+                "Na complexidade do xadrez, a simplicidade muitas vezes revela a verdadeira genialidade.",
+                "A estratégia é a harmonia entre a mente e as peças no tabuleiro.",
+                "Cada lance é uma escolha; cada escolha, uma consequência.",
+                "A posição das peças reflete o equilíbrio sutil entre ataque e defesa.",
+                "O tabuleiro é um campo de batalha onde a mente se destaca.",
+                "No xadrez, assim como na vida, a improvisação habilidosa pode ser a chave para o sucesso.",
+                "A beleza do xadrez está na imprevisibilidade de cada partida.",
+                "Cada jogada é uma oportunidade para desvendar o mistério do tabuleiro.",
+                "A vitória no xadrez não é apenas sobre movimentos, mas sobre compreender a essência do jogo.",
+                "As peças no tabuleiro dançam uma dança estratégica, cada movimento é uma nota na sinfonia da partida."
+            ]
+        },
+        "18": {
+            "name": "J. Karpov",
+            "rating": "2580",
+            "avatar": "/bots/jkarpov.jpg",
+            "phrases": [
+                "Cada movimento é uma peça no meu plano mestre.",
+                "No xadrez, a verdadeira sabedoria está na compreensão do tabuleiro.",
+                "A paciência é a chave; o tempo é meu aliado no tabuleiro.",
+                "O xadrez é uma dança, e cada peça segue meu comando coreografado.",
+                "O segredo está na harmonia das peças, uma sinfonia tática em evolução.",
+                "No tabuleiro, o passado é história, o presente é ação e o futuro é estratégia.",
+                "Cada partida é uma oportunidade para revelar a profundidade da mente enxadrista.",
+                "O xadrez não é apenas um jogo; é uma expressão de inteligência e criatividade.",
+                "A análise constante é a chave para antecipar o próximo movimento do adversário.",
+                "O tabuleiro é um campo de batalha onde a mente conquista territórios.",
+                "Em meio ao silêncio do jogo, cada peça sussurra sua própria narrativa estratégica.",
+                "O sucesso no xadrez reside na adaptação constante e na leitura sutil do oponente.",
+                "As melhores jogadas são aquelas que surpreendem até mesmo o mais sábio adversário.",
+                "A complexidade do xadrez está na simplicidade das escolhas feitas no tabuleiro.",
+                "No xadrez, a mente e o tabuleiro se tornam um só, uma extensão da estratégia.",
+                "Cada movimento é uma oportunidade para revelar a verdadeira essência do xadrez.",
+                "A previsão do adversário é uma arte; a criação de oportunidades é uma ciência.",
+                "O verdadeiro enxadrista aprende com cada derrota e aprimora sua arte a cada vitória.",
+                "Cada peça tem seu papel, mas somente o mestre enxerga o quadro completo.",
+                "No xadrez, o jogo é uma jornada, não apenas um destino a ser alcançado."
+            ]
+        }
+    }
+}

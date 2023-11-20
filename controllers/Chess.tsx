@@ -11,6 +11,8 @@ import FlagIcon from '@mui/icons-material/Flag';
 import CloseIcon from '@mui/icons-material/Close';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import Button from '@mui/material/Button';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { bots } from '@/lib/bots/bots.json'
 
 interface ChessGameProps {
   players: any;
@@ -57,6 +59,9 @@ export default function ChessGame({ players, room, username, orientation, comput
   const [playerTime, setPlayerTime] = useState(180)
   const [opponentTime, setOpponentTime] = useState(180)
   const [difficulty, setDifficulty] = useState(2)
+  const [randomPhrases, setRandomPhrases] = useState<any>([])
+  const ndiff: string = difficulty.toString()
+  const diff = ndiff as keyof typeof bots
 
   // Controle de tempo
   useEffect(() => {
@@ -72,7 +77,7 @@ export default function ChessGame({ players, room, username, orientation, comput
     timer = setInterval(() => {
 
       // Só startar o tempo depois da segunda jogada.
-      if(chess.history().length === 1) return
+      if(chess.history().length  <= 1) return
 
       if (chess.turn() === 'w') {
         setPlayerTime((prevTime) => (prevTime > 0 ? prevTime - 1 : prevTime));
@@ -85,6 +90,23 @@ export default function ChessGame({ players, room, username, orientation, comput
     return () => clearInterval(timer);
 
   }, [chess, playerTime, opponentTime]);
+
+  useEffect(() => {
+
+    if(!computer || chess.isCheckmate() || chess.isGameOver()) return
+
+    const intervaloSegundos = Math.floor(Math.random() * (playerTime - 1 + 1) + 1);; // Intervalo de tempo em segundos para exibir uma nova frase
+    const totalFrases: number = bots[diff]["phrases"].length;
+
+    const intervaloID = setInterval(() => {
+      const fraseAleatoria = bots[diff]["phrases"][Math.floor(Math.random() * totalFrases)];
+      setRandomPhrases((prevPhrases: any) => [...prevPhrases, fraseAleatoria]);
+    }, intervaloSegundos * 1000);
+
+    return () => {
+      clearInterval(intervaloID);
+    };
+  }, [randomPhrases, chess]);
 
 
   const moveSound = new Howl({
@@ -115,7 +137,7 @@ export default function ChessGame({ players, room, username, orientation, comput
 
   const findBestMove = () => {
 
-    if (!computer) return
+    if (!computer || !engine) return
 
     engine.evaluatePosition(chess.fen(), difficulty);
     engine.onMessage(({ bestMove }: any) => {
@@ -248,8 +270,17 @@ export default function ChessGame({ players, room, username, orientation, comput
     chess.reset();
     setFen(chess.fen());
     setOver("");
-    updateTime(180) // Altera um estado que não é usado para forçar a atualização
+    setRandomPhrases([])
+    updateTime(180)
   }, [chess]);
+
+  const Surrender = useCallback(() => {
+    chess.reset();
+    setFen(chess.fen());
+    setOver(`${chess.turn() === "w" ? "Brancas se renderam! Pretas" : "Pretas se renderam! Brancas"} ganham!`);
+    setRandomPhrases([])
+    updateTime(180)
+  }, [chess])
 
   const formatarHistorico = () => {
     const jogadasFormatadas = [];
@@ -276,24 +307,23 @@ export default function ChessGame({ players, room, username, orientation, comput
   };
 
 
-  console.log(chess.history())
-
   return (
 
-    <div className="bg-masterchess mt-4 min-h-screen flex items-center justify-center text-white font-sans board w-3/5 max-w-screen-lg p-4 shadow-lg rounded-lg flex-row">
+    <div className="bg-masterchess mt-4 min-h-screen flex flex-col md:flex-row items-center justify-center text-white font-sans board w-full max-w-screen-lg p-4 shadow-lg rounded-lg">
       <div>
         <div className="mb-4">
           <div className="flex items-center space-x-4 justify-between">
             <div className="flex">
               <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center">
-                <Avatar alt="Misakiix" src="https://cdn.discordapp.com/avatars/465329875792691201/e83b577fe61760fe56d0c5e6cc144cc4.png?size=1024" />
+                <Avatar alt={bots[diff]["name"]} src={bots[diff]["avatar"]} />
               </div>
               <div className="ml-4">
-                <h2 className="text-xl font-semibold">Misakiix</h2>
-                <p className="text-sm text-gray-500">Rating: 1500</p>
+                <h2 className="text-xl font-semibold">{bots[diff]["name"]}</h2>
+                <p className="text-sm text-gray-500">Rating: {bots[diff]["rating"]}</p>
               </div>
             </div>
-            <div className={`${chess.turn() === "b" ? `bg-masterchess-secondary` : `bg-gray-500`} p-1 w-28 text-right rounded-sm`}>
+            <div className={`${chess.turn() === "b" ? `bg-masterchess-secondary flex justify-between items-center` : `bg-masterchess-dark`} p-1 w-28 text-right rounded-sm`}>
+            {chess.turn() === "b" && <AccessTimeIcon />}
               <p className={`text-white text-lg font-bold`}>{formatTime(opponentTime)}</p>
             </div>
           </div>
@@ -302,8 +332,8 @@ export default function ChessGame({ players, room, username, orientation, comput
           position={fen}
           onPieceDrop={onDrop}
           customArrowColor="darkred"
-          customDarkSquareStyle={{ backgroundColor: "#b7c0d8" }}
-          customLightSquareStyle={{ backgroundColor: "#e8edf9" }}
+          customDarkSquareStyle={{ backgroundColor: "#2a2a2a" }}
+          customLightSquareStyle={{ backgroundColor: "#383635" }}
           customBoardStyle={{
             borderRadius: "4px",
             boxShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
@@ -317,20 +347,21 @@ export default function ChessGame({ players, room, username, orientation, comput
           <div className="flex items-center space-x-4 justify-between">
             <div className="flex">
               <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center">
-                <Avatar alt="Ikasim" src="https://i.redd.it/lrvy17zucsm51.jpg" />
+                <Avatar alt={username ? username : "Convidado"} src="/noimage.png" />
               </div>
               <div className="ml-4">
-                <h2 className="text-xl font-semibold">Ikasim</h2>
-                <p className="text-sm text-gray-500">Rating: 1500</p>
+                <h2 className="text-xl font-semibold">{username ? username : "Convidado"}</h2>
+                <p className="text-sm text-gray-500"></p>
               </div>
             </div>
-            <div className={`${chess.turn() === "w" ? `bg-masterchess-secondary` : `bg-gray-500`} p-1 w-28 text-right rounded-sm`}>
+            <div className={`${chess.turn() === "w" ? `bg-masterchess-secondary flex justify-between items-center` : `bg-masterchess-dark`} p-1 w-28 text-right rounded-sm`}>
+              {chess.turn() === "w" && <AccessTimeIcon />}
               <p className={`text-white text-lg font-bold`}>{formatTime(playerTime)}</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full bg-masterchess-dark text-white p-4 ml-4 h-full rounded-md">
+      <div className="w-full bg-masterchess-dark text-white p-4 md:ml-4 h-full rounded-md mt-4 md:mt-0">
         <div className="mb-4">
           <h2 className="text-lg font-semibold mb-2">Lances</h2>
           <div className="overflow-scroll h-[150px] overflow-x-auto max-w-screen-xl mx-auto">
@@ -341,13 +372,13 @@ export default function ChessGame({ players, room, username, orientation, comput
           <div className="mb-4">
             <h2 className="text-lg font-semibold mb-2">Dificuldade</h2>
             <div className="flex justify-between items-center">
-              <Button variant="text" aria-label="Fácil" className={`${difficulty === 2 ? `bg-masterchess-secondary` : `bg-gray-600`} text-white font-bold`} onClick={() => { setDifficulty(2) }}>
+              <Button variant="text" aria-label="Fácil" className={`${difficulty === 2 ? `bg-masterchess-secondary` : `bg-masterchess`} text-white font-bold w-full mr-4`} onClick={() => { setDifficulty(2) }}>
                 Fácil
               </Button>
-              <Button variant="text" aria-label="Médio" className={`${difficulty === 8 ? `bg-masterchess-secondary` : `bg-gray-600`} text-white font-bold`} onClick={() => { setDifficulty(8) }}>
+              <Button variant="text" aria-label="Médio" className={`${difficulty === 8 ? `bg-masterchess-secondary` : `bg-masterchess`} text-white font-bold w-full`} onClick={() => { setDifficulty(8) }}>
                 Médio
               </Button>
-              <Button variant="text" aria-label="Difícil" className={`${difficulty === 18 ? `bg-masterchess-secondary` : `bg-gray-600`} text-white font-bold`} onClick={() => { setDifficulty(18) }}>
+              <Button variant="text" aria-label="Difícil" className={`${difficulty === 18 ? `bg-masterchess-secondary` : `bg-masterchess`} text-white font-bold w-full ml-4`} onClick={() => { setDifficulty(18) }}>
                 Difícil
               </Button>
             </div>
@@ -356,21 +387,23 @@ export default function ChessGame({ players, room, username, orientation, comput
         <div className="mb-4">
           <h2 className="text-lg font-semibold mb-2">Opções</h2>
           <div className="flex justify-between items-center">
-            <Button variant="text" aria-label="Render-se" className="bg-masterchess-secondary text-white">
+            <Button variant="text" aria-label="Render-se" className="bg-masterchess-secondary text-white w-full mr-4" onClick={() => { Surrender() }}>
               <FlagIcon />
             </Button>
-            <Button variant="text" aria-label="Propor Empate" className="bg-masterchess-secondary text-white">
+            <Button variant="text" aria-label="Propor Empate" className="bg-masterchess-secondary text-white w-full">
               <StarHalfIcon />
             </Button>
-            <Button variant="text" aria-label="Cancelar partida" className="bg-masterchess-secondary text-white">
+            <Button variant="text" aria-label="Cancelar partida" className="bg-masterchess-secondary text-white w-full ml-4">
               <CloseIcon />
             </Button>
           </div>
         </div>
         <div className="mb-4">
           <h2 className="text-lg font-semibold mb-2">Chat</h2>
-          <div className="w-full h-[190px]">
-
+          <div className="w-full h-[190px] overflow-scroll overflow-x-auto">
+            {computer && randomPhrases?.map((frase: string) => (
+              <p className="text-white font-bold text-sm">{bots[diff]["name"]}: {frase}</p>
+            ))}
           </div>
           <form>
             <input type="text" placeholder="Digite um comentário" className="rounded-sm indent-2 w-full h-[40px] text-white bg-masterchess-dark outline-none" />
